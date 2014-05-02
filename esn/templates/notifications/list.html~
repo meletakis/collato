@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+{% load notifications_tags %}
+<div class="col-xs-6 col-md-4">
+</div>
+<div class="col-xs-6 col-md-4">
+{% notifications_unread as unread_count %}
+<h2 > Όλες οι ειδοποιήσεις</h2>
+<ul class="list-group">
+  {% for notice in notifications %}
+    {% include 'notifications/notice.html' %}
+  {% endfor %}
+</ul>
+</div>
+<div class="col-xs-6 col-md-4">
+</div>
+{% endblock %}

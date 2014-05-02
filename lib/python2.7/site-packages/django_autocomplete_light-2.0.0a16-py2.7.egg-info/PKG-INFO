@@ -1,0 +1,104 @@
+Metadata-Version: 1.1
+Name: django-autocomplete-light
+Version: 2.0.0a16
+Summary: Fresh autocompletes for Django
+Home-page: http://django-autocomplete-light.rtfd.org
+Author: James Pic
+Author-email: jamespic@gmail.com
+License: MIT
+Description: .. image:: https://secure.travis-ci.org/yourlabs/django-autocomplete-light.png?branch=master
+            :target: http://travis-ci.org/yourlabs/django-autocomplete-light
+        .. image:: https://pypip.in/d/django-autocomplete-light/badge.png
+            :target: https://crate.io/packages/django-autocomplete-light
+        .. image:: https://pypip.in/v/django-autocomplete-light/badge.png   
+            :target: https://crate.io/packages/django-autocomplete-light
+        .. image:: https://coveralls.io/repos/yourlabs/django-autocomplete-light/badge.png 
+            :target: https://coveralls.io/r/yourlabs/django-autocomplete-light
+        
+        django-autocomplete-light's purpose is to enable autocompletes quickly and
+        properly in a django project: it is the fruit of **years of R&D**. It was
+        designed for Django so that every part overridable or reusable independently.
+        It is stable, tested, documented and fully supported: it tries to be a good
+        neighbour in Django ecosystem.
+        
+        **WARNING** you are currently on the v2 branch where new development happens.
+                    master (v1) is still supported for BC.
+        
+        Features
+        --------
+        
+        Features include:
+        
+        - charfield, foreign key, many to many autocomplete widgets,
+        - generic foreign key, generic many to many autocomplete widgets,
+        - remote API backed-autocompletes,
+        - django template engine support for autocompletes, enabling you to include
+          images etc ...
+        - 100% overridable HTML, CSS, Python and Javascript: there is no variable
+          hidden far down in the scope anywhere.
+        - add-another popup supported outside the admin too.
+        - keyboard is supported with enter, tab and
+          arrows by default.
+        
+        Each feature has a live example and is fully documented. It is also designed
+        and documented so that you create your own awesome features too.
+        
+        v2
+        --
+        
+        `v2 branch <https://github.com/yourlabs/django-autocomplete-light/tree/v2>`_ is
+        under active development. You might want to use that instead, since it's much
+        easier to work with and supports python3.
+        
+        In this case, please refer to the `v2 documentation
+        <http://django-autocomplete-light.readthedocs.org/en/v2/>`_.
+        
+        **To upgrade to v2**, please enjoy the `v1 to v2 upgrade instructions
+        <http://django-autocomplete-light.readthedocs.org/en/v2/1to2.html>`_ (documented with love !).
+        
+        - the Autocomplete class design hasn't changed at all.
+        - ``yourlabsWidget()`` doesn't parses ``data-*`` options the same,
+        - the django/form python code has been re-organised ie.
+          ``get_widgets_dict()`` is gone and ``autocomplete_light.ModelForm``
+          wraps around all features.
+        
+        Resources
+        ---------
+        
+        Resources include:
+        
+        - `**Documentation** graciously hosted
+          <http://django-autocomplete-light.rtfd.org>`_ by `RTFD
+          <http://rtfd.org>`_
+        - `Live demo graciously hosted
+          <http://jpic.pythonanywhere.com/>`_ by `PythonAnywhere
+          <http://pythonanywhere.com/>`_,
+        - `Video demo graciously hosted
+          <http://youtu.be/fJIHiqWKUXI>`_ by `Youtube
+          <http://youtube.com>`_,
+        - `Mailing list graciously hosted
+          <http://groups.google.com/group/yourlabs>`_ by `Google
+          <http://groups.google.com>`_
+        - `Git graciously hosted
+          <https://github.com/yourlabs/django-autocomplete-light/>`_ by `GitHub
+          <http://github.com>`_,
+        - `Package graciously hosted
+          <http://pypi.python.org/pypi/django-autocomplete-light/>`_ by `PyPi
+          <http://pypi.python.org/pypi>`_,
+        - `Continuous integration graciously hosted
+          <http://travis-ci.org/yourlabs/django-autocomplete-light>`_ by `Travis-ci
+          <http://travis-ci.org>`_
+        
+Keywords: django autocomplete
+Platform: UNKNOWN
+Classifier: Development Status :: 3 - Alpha
+Classifier: Environment :: Web Environment
+Classifier: Framework :: Django
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Internet :: WWW/HTTP
+Classifier: Topic :: Software Development :: Libraries :: Python Modules

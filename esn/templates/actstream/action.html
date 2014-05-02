@@ -1,0 +1,40 @@
+{% load i18n %}
+{% get_current_language as en %}
+{% load endless %}
+
+{% paginate action_list %}
+{% for action in action_list %}
+
+	<blockquote>
+	<p style="text-align:justify">
+	{% if action.data.post_content %}
+		{% autoescape off %}
+			{{action.data.post_content}}
+		{% endautoescape %}
+	{% elif action.data.executed %}
+		{% autoescape off %}
+			{{action.data.executed}} 
+		{% endautoescape %}
+	{% endif %}
+	</p>
+	<small>
+	{% if user == action.actor %} 
+	<a href="/user/profile/{{ action.actor }}"><img src="{{action.actor.profile.thumbnailURL}}" width="20" alt="User Image"/>&nbsp;&nbsp;You</a>
+	{% else %}
+	<a href="/user/profile/{{ action.actor }}"><img src="{{action.actor.profile.thumbnailURL}}" width="20" alt="User Image"/>&nbsp;&nbsp;{{ action.actor.profile.displayName }}</a>
+	{% endif %}
+	{% for group in related_groups %}
+				{% if group.name ==  action.target.name %}</a> in group <a href="/groups/{{group.id}}"> <img src="{{ action.target.image }}" width="20"/>
+					{{ action.target.name }}</a>
+				{% endif %}
+			{% endfor %}
+	, {{ action.timestamp|timesince }} {% trans "before" %} </small>
+	</blockquote>
+
+
+
+{% empty %}
+{% trans "No actions yet" %}
+
+{% endfor %}
+{% show_more %}

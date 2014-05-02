@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load relationship_tags %}
+{% block content %}
+
+{% if status_slug == "to_accept" %}
+   	{% for otheruser in relationship_list %}	
+		{% if_relationship_possible user otheruser "befriender_maintainers" %}		
+			<p>{{ otheruser.username }}: <a href="{{ otheruser|add_relationship_url:"befriender_maintainers" }}">Αποδοχή</a> | <a href="{{ otheruser|remove_relationship_url:"pending" }}">Απόρριψη</a></p>
+		{% endif_relationship_possible %}
+		{% if_relationship_possible user otheruser "befriender_regainers" %}		
+			<p>{{ otheruser.username }}: <a href="{{ otheruser|add_relationship_url:"befriender_regainers" }}">Αποδοχή</a> | <a href="{{ otheruser|remove_relationship_url:"pending" }}">Απόρριψη</a></p>
+		{% endif_relationship_possible %}
+		{% if_relationship_possible user otheruser "befriender_dietitians" %}		
+			<p>{{ otheruser.username }}: <a href="{{ otheruser|add_relationship_url:"befriender_dieticians" }}">Αποδοχή</a> | <a href="{{ otheruser|remove_relationship_url:"pending" }}">Απόρριψη</a></p>
+		{% endif_relationship_possible %}
+	
+  	{% endfor %}
+  {% else %}
+	  {% for otheruser in relationship_list %}
+	    <p>{{ otheruser.username }}</p>
+	  {% endfor %}
+  {% endif %}
+
+{% endblock %}

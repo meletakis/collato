@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<div id="msg-body">
+  <div id="msg-panel">
+<div class="alert alert-success">
+  <h2>{% trans "Επιτυχία!" %}</h2>
+  <script type="text/javascript">
+    setTimeout(function () {
+   	window.location.href = "/user/profile/{{ to_user.username }}"; //will redirect to your blog page (an ex: blog.html)
+    }, 4000);
+</script>
+  <img class="img-thumbnail" src="{{to_user.profile.thumbnailURL}}" alt="{{ to_user.profile.displayName }}" width="100px"/><br/>
+
+  <p><a class="alert-link" href="/user/profile/{{ to_user.username }}">Μετάβαση στο προφίλ του χρήστη {% blocktrans with to_user.profile.displayName as to_user_username %}{{ to_user_username }}{% endblocktrans %}</a></p>
+<br/><img src="/static/main/img/ajax-loader.gif" alt="Loading..."/><br/>
+</div></div>
+</div>{% endblock %}
+

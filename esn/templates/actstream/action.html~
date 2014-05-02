@@ -1,0 +1,31 @@
+{% load i18n %}
+{% get_current_language as el %}
+{% load endless %}
+
+{% paginate action_list %}
+{% for action in action_list %}
+
+<blockquote>
+<p style="text-align:justify">
+{% if action.data.post_content %}
+	{% autoescape off %}
+	{{action.data.post_content}}
+	{% endautoescape %}
+{% endif %}
+</p>
+<small>
+{% if user == action.actor %} 
+<a href="/user/profile/{{ action.actor }}"><img src="{{action.actor.profile.thumbnailURL}}" width="20" alt="User Image"/>&nbsp;&nbsp;Εσείς</a>
+{% else %}
+<a href="/user/profile/{{ action.actor }}"><img src="{{action.actor.profile.thumbnailURL}}" width="20" alt="User Image"/>&nbsp;&nbsp;{{ action.actor.profile.displayName }}</a>
+{% endif %}
+{% for group in related_groups %}
+			{% if group.name ==  action.target.name %}</a> στην ομάδα <a href="/groups/{{group.id}}"> <img src="{{ action.target.image }}" width="20"/>
+				{{ action.target.name }}</a>
+			{% endif %}
+		{% endfor %}
+, {% trans "πριν" %} {{ action.timestamp|timesince }}</small>
+</blockquote>
+
+<hr/>
+

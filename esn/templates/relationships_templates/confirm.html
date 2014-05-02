@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}Διαχείριση Σχέσης{% endblock %}
+
+{% block content %}
+  <p>Είστε σίγουροι;</p>
+  <form method="post" action="">{% csrf_token %}
+    {{ form.as_table }}
+    <tr>
+      <th></th>
+      <td><input type="submit" value="{% trans "Επιβεβαίωση" %}" /></td>
+    </tr>
+  </form>
+{% endblock %}

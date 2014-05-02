@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<div class="row">
+	<div class="col-xs-6 col-md-3">
+		<div id="left-container">
+			<h1>Applications</h1><br/>
+			<center><img src="/static/main/img/gadget.png"/><br/><br/><br/></center>
+			<p style="text-align:justify;">
+				Define application for removal:
+			</p>
+		</div>
+	</div>
+	<div class="col-xs-6 col-md-6">
+		<div id="app-actions">
+		<br/><br/>
+		{% if apps_created %}
+			 {% for app in apps_created %}
+				<h3><span class="glyphicon glyphicon-trash	"></span><a href = "/apps/remove_app/{{app.id}}/">{{app.name}}</a></h3><br>
+			  {% endfor %}
+		{% else %}
+		<h3><span class="glyphicon glyphicon-ban-circle"></span>You are not create any application</h3><br>
+		{% endif %}
+		</div>
+		<br>
+	</div>
+
+
+</div>
+</div>
+
+{% endblock %}

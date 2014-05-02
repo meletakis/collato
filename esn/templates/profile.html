@@ -1,0 +1,16 @@
+﻿{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Login</h1>
+
+{% if user.is_authenticated %}
+My name is, ({{ user.username }}).
+
+<br>
+
+<a href="{% url 'auth_logout' %}">Logout</a>
+
+{% endif %}
+
+{% endblock %}

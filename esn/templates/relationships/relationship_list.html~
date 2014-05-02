@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load relationship_tags %}
+{% block content %}
+<script type="text/javascript">
+$(document).ready(function(){
+
+     
+    $(function () {
+        $("[rel='tooltip']").tooltip();
+    });
+});
+</script>
+<div class="row">
+<div class="col-xs-6 col-md-4">
+</div>
+<div class="col-xs-6 col-md-4">
+<div id="center-div">
+<ul class="list-group">
+{% if status_slug == "to_accept" %}
+   	{% for otheruser in relationship_list %}	
+		{% if_relationship_possible user otheruser "befriender_maintainers" %}	
+			<li class="list-group-item" id="relationship-request"><table cellpadding="10"><tr><td><a target="_blank" href="/user/profile/{{ otheruser.username }}" rel="tooltip" data-toggle="tooltip" data-placement="top" data-original-title="{{otheruser.profile.displayName}}"><img width="40" class="img-rounded" src="{{ otheruser.profile.thumbnailURL }}"/></a></td><td>{{ otheruser.profile.displayName }}:</td><td><a class="btn btn-success" href="{{ otheruser|add_relationship_url:"friends_m" }}"><span class="glyphicon glyphicon-ok"></span>&nbsp;Αποδοχή</a> <a class="btn btn-danger" href="{{ otheruser|remove_relationship_url:"pending" }}"><span class="glyphicon glyphicon-remove"></span>&nbsp;Απόρριψη</a></td></tr></table></li>
+		{% endif_relationship_possible %}
+		{% if_relationship_possible user otheruser "befriender_regainers" %}		
+			<li class="list-group-item" id="relationship-request"><table cellpadding="10"><tr><td><a target="_blank" href="/user/profile/{{ otheruser.username }}" rel="tooltip" data-toggle="tooltip" data-placement="top" data-original-title="{{otheruser.profile.displayName}}"><img width="40" class="img-rounded" src="{{ otheruser.profile.thumbnailURL }}" alt="{{ otheruser.profile.displayName }}"/></a></td><td>{{ otheruser.profile.displayName }}:</td><td><a class="btn btn-success" href="{{ otheruser|add_relationship_url:"friends_r" }}"><span class="glyphicon glyphicon-ok"></span>&nbsp;Αποδοχή</a> <a class="btn btn-danger" href="{{ otheruser|remove_relationship_url:"pending" }}"><span class="glyphicon glyphicon-remove"></span>&nbsp;Απόρριψη</a></td></tr></table></li>
+		{% endif_relationship_possible %}
+		{% if_relationship_possible user otheruser "befriender_dietitians" %}		
+			<li class="list-group-item" id="relationship-request"><table cellpadding="10"><tr><td><a target="_blank" href="/user/profile/{{ otheruser.username }}"><img width="40" class="img-rounded" src="{{ otheruser.profile.thumbnailURL }}" alt="{{ otheruser.profile.displayName }}"/></a></td><td>{{ otheruser.profile.displayName }}:</td><td><a class="btn btn-success" href="{{ otheruser|add_relationship_url:"friends_d" }}"><span class="glyphicon glyphicon-ok"></span>&nbsp;Αποδοχή</a> <a class="btn btn-danger" href="{{ otheruser|remove_relationship_url:"pending" }}"><span class="glyphicon glyphicon-remove"></span>&nbsp;Απόρριψη</a></td></tr></table></li>
+		{% endif_relationship_possible %}
+  	{% endfor %}
+  {% else %}
+	  {% for otheruser in relationship_list %}<a href="/user/profile/{{ otheruser.username }}" data-placement="top" data-toggle="tooltip" title="{{ otheruser.profile.displayName }}" rel="tooltip" data-toggle="tooltip" data-placement="top" data-original-title="{{otheruser.profile.displayName}}"/><img id="relationship-thumb" width="100" class="img-rounded" src="{{ otheruser.profile.thumbnailURL }}"/></a>{% endfor %}
+  {% endif %}
+</ul>
+</div></div>
+<div class="col-xs-6 col-md-4">
+</div>
+</div>
+{% endblock %}

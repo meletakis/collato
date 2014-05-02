@@ -1,0 +1,19 @@
+
+COMMANDS
+
+./manage.py makemessages --symlinks --locale=el
+./manage.py compilemessages --locale=el
+
+IN SETTINGS
+
+	LOCALE_PATHS = (
+	    '/home/user/esn/locale', # replace with correct path here
+	)
+
+	USE_I18N = True
+
+IN TEMPLATE
+
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+

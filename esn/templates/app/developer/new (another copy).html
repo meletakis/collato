@@ -1,0 +1,390 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+
+
+	<style>
+		#overlay {
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 999;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    text-align: center;
+}
+	</style>
+	<script type="text/javascript">
+		
+			Shadowbox.init({
+    skipSetup: true,
+    overlayColor : "#000",
+});
+
+$(document).ready(function () {
+    // Code adapted from http://djangosnippets.org/snippets/1389/  
+    function updateElementIndex(el, prefix, ndx) {
+        var id_regex = new RegExp('(' + prefix + '-\\d+-)');
+        var replacement = prefix + '-' + ndx + '-';
+        if ($(el).attr("for")) $(el).attr("for", $(el).attr("for").replace(id_regex,
+        replacement));
+        if (el.id) el.id = el.id.replace(id_regex, replacement);
+        if (el.name) el.name = el.name.replace(id_regex, replacement);
+    }
+
+    function deleteForm(btn, prefix) {
+        var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+        if (formCount > 1) {
+            // Delete the item/form
+            $(btn).parents('.item').remove();
+            var forms = $('.item'); // Get all the forms  
+            // Update the total number of forms (1 less than before)
+            $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
+            var i = 0;
+            // Go through the forms and set their indices, names and IDs
+            for (formCount = forms.length; i < formCount; i++) {
+                $(forms.get(i)).children().children().each(function () {
+                    if ($(this).attr('type') == 'text') updateElementIndex(this, prefix, i);
+                });
+            }
+		}
+
+        else {
+            alert("You have to enter at least one todo item!");
+        }
+        return false;
+    }
+
+    function addForm(btn, prefix) {
+        var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+        // You can only submit a maximum of 10 todo items 
+        if (formCount < 10) {
+            // Clone a form (without event handlers) from the first form
+            var row = $(".item:first").clone(false).get(0);
+            // Insert it after the last form
+            $(row).removeAttr('id').hide().insertAfter(".item:last").slideDown(300);
+
+            // Remove the bits we don't want in the new row/form
+            // e.g. error messages
+            $(".errorlist", row).remove();
+            $(row).children().removeClass("error");
+			
+			// Relabel/rename all the relevant bits
+			  $(row).find('input,select,textarea').each(function() {
+				updateElementIndex(this, prefix, formCount);
+
+				  $(this).val('');
+			  });
+
+            // Add an event handler for the delete item/form link 
+            $(row).find(".delete").click(function () {
+                return deleteForm(this, prefix);
+            });
+            
+            // Add an event handler for onchange dropodownlist
+            $(row).find("#id_form-"+formCount+"-data_type").on('change',function() {
+			insert_values_to_forms(this.id.match(/\d+/g),this.value);
+			});
+			
+			document.getElementById('id_form-'+formCount+'-name').readOnly=false;
+			document.getElementById('id_form-'+formCount+'-description').readOnly=false;
+			document.getElementById('id_form-'+formCount+'-slug').readOnly=false;
+			
+			
+			$(row).find( "#id_form-"+formCount+"-domain option" ).prop('disabled',false);
+			//$( "#id_form-"+id+"-domain option").prop('disabled',false);
+			
+            // Update the total form count
+            $("#id_" + prefix + "-TOTAL_FORMS").val(formCount + 1);
+        } // End if
+        else {
+            alert("Sorry, you can only enter a maximum of ten items.");
+        }
+        return false;
+    }
+    
+    
+    // Register the click event handlers
+    $("#add").click(function () {
+        return addForm(this, "form");
+    });
+
+    $(".delete").click(function () {
+        return deleteForm(this, "form");
+    });
+    
+    
+	for ( var i =0; i < 20; i++ )
+	{
+
+		if ($("#id_form-"+ i+"-data_type").length > 0) {
+		  
+		   $("#id_form-"+i+"-data_type").on('change', function() {
+			  insert_values_to_forms(this.id.match(/\d+/g),this.value); // send the number value from id_form-0-input (0) to find which form selected user
+			});
+			
+			// check if form has values and make them read only
+			
+			var myInput = document.getElementById('id_form-'+i+'-name');
+			if (myInput && myInput.value) {
+			 document.getElementById('id_form-'+i+'-name').readOnly=true;
+			 document.getElementById('id_form-'+i+'-description').readOnly=true;
+			 document.getElementById('id_form-'+formCount+'-slug').readOnly=true;
+			 $( "#id_form-"+i+"-domain option:not(:selected)" ).prop('disabled',true);
+			}
+			
+		}
+			
+
+	}
+	
+	
+
+	
+});
+
+
+
+
+function insert_values_to_forms(id,value)
+{
+	// make false readonly and dropdown disable
+	document.getElementById('id_form-'+id+'-name').readOnly=false;
+	$( "#id_form-"+id+"-domain option").prop('disabled',false);
+	document.getElementById('id_form-'+id+'-description').readOnly=false;
+	
+	var flag = 0;
+	var content = '';
+	
+	if ( value == "Profile_Input" )
+	{ 
+		flag = 1;
+		var data = {{profile_data|safe}};
+		var sample = String(data[i]);
+		var content = "<center> <br> <br> <br> <br> <h3> Choose profile element: </h3> <br> <br>";
+		for ( var i=0; i< data.length;i++)
+		{
+			var sample = String(data[i]);
+			if ( value == "Application_Input" || value == "Output"  )
+				sample = sample.split(",")[1];
+			content += "<h4 onclick='selected_values("+i+","+id+","+flag+")'> "+sample+"</h4> "
+		}
+		content += "<br><h4 onclick='selected_values("+i+","+id+",0)'>If you dont find the data you want, please import data</h4><br> <br></center>";
+		
+		
+		document.getElementById("overlay_content").innerHTML = content;
+		$(function () {
+			$("#overlay").show();
+		});
+
+
+	}else if ( value == "Application_Input"  || value == "Output"  )
+	{
+		var idle_input = {{idle_input|safe}};
+		var output =  {{output|safe}};
+		var user_inputs =  {{user_inputs|safe}};
+		
+		// content for outputs
+		flag = 2;
+		var content = "<center> <br> <br> <br> <h3> Choose applications output data: </h3> <br>";
+		for ( var i=0; i< output.length;i++)
+			content += "<h4 onclick='selected_values("+i+","+id+","+flag+")'> "+output[i].name+"</h4> "
+		
+		
+		// content for idle inputs
+		flag = 3;
+		 content += " <br> <h3> Choose idle applications input data: </h3><br>";
+
+		for ( var i=0; i< idle_input.length;i++)
+			content += "<h4 onclick='selected_values("+i+","+id+","+flag+")'> "+idle_input[i].name+"</h4> "
+		
+		
+		
+		// content for user inputs
+		if ( value == "Output")
+		{
+			flag = 4;
+			content += " <br><h3>Chooses user inputs data: </h3><br> <br>";
+
+			for ( var i=0; i< user_inputs.length;i++)
+				content += "<h4 onclick='selected_values("+i+","+id+","+flag+")'> "+user_inputs[i].name+"</h4> "
+		}
+		
+		
+		content += "<br><h4 onclick='selected_values("+i+","+id+",0)'> If you dont find the data you want, please import data in the fields</h4><br> <br></center>";
+		
+		
+		document.getElementById("overlay_content").innerHTML = content;
+		$(function () {
+			$("#overlay").show();
+		});
+
+		
+	}else if ( value == "User_Input")
+	{
+		selected_values(-1,id,flag);
+	}
+
+
+		
+	 
+}// end of function insert_values_to_forms
+	
+	
+
+
+function selected_values(i,id,flag)
+{
+	console.log('in select values '+id+' '+i+' '+flag);
+	if ( flag == 1) // Profile
+	{ 
+		var profile_data = {{profile_data|safe}};
+		document.getElementById('id_form-'+id+'-name').value = profile_data[i];
+		document.getElementById('id_form-'+id+'-name').readOnly=true;
+
+		document.getElementById('id_form-'+id+'-domain').selectedIndex=3;
+		$( "#id_form-"+id+"-domain option:not(:selected)" ).prop('disabled',true); // disable all except selected value
+		
+		document.getElementById('id_form-'+id+'-description').value = profile_data[i]+" from user profile";
+		document.getElementById('id_form-'+id+'-description').readOnly=true;
+		
+		document.getElementById('id_form-'+id+'-slug').value = profile_data[i];
+		document.getElementById('id_form-'+id+'-slug').readOnly=true;
+		$(function () {
+			$("#overlay").hide();
+		});
+
+	}else if ( flag == 2) // Output
+	{
+		var profile_data = {{output|safe}};
+		console.log(  profile_data );
+		document.getElementById('id_form-'+id+'-name').value = String(profile_data[i].name);
+		document.getElementById('id_form-'+id+'-name').readOnly=true;
+		
+		document.getElementById('id_form-'+id+'-domain').selectedIndex= String(profile_data[i].domain - 7);
+		$( "#id_form-"+id+"-domain option:not(:selected)" ).prop('disabled',true); // disable all except selected value
+		
+		document.getElementById('id_form-'+id+'-description').value = String(profile_data[i].description);
+		document.getElementById('id_form-'+id+'-description').readOnly=true;
+		
+		document.getElementById('id_form-'+id+'-slug').value = String(profile_data[i].slug);
+		document.getElementById('id_form-'+id+'-slug').readOnly=true;		
+		$(function () {
+			$("#overlay").hide();
+		});
+		
+	}
+	else if ( flag == 3) // Indle Input
+	{
+		var profile_data = {{idle_input|safe}};
+		document.getElementById('id_form-'+id+'-name').value = String(profile_data[i].name);
+		document.getElementById('id_form-'+id+'-name').readOnly=true;
+		
+		document.getElementById('id_form-'+id+'-domain').selectedIndex= String(profile_data[i].domain- 7);
+		$( "#id_form-"+id+"-domain option:not(:selected)" ).prop('disabled',true); // disable all except selected value
+		
+		document.getElementById('id_form-'+id+'-description').value = String(profile_data[i].description);
+		document.getElementById('id_form-'+id+'-description').readOnly=true;
+		
+		document.getElementById('id_form-'+id+'-slug').value = String(profile_data[i].slug);
+		document.getElementById('id_form-'+id+'-slug').readOnly=true;			
+		$(function () {
+			$("#overlay").hide();
+		});
+		
+	}
+	else if ( flag == 4) //  Input
+	{
+		var profile_data = {{user_inputs|safe}};
+		document.getElementById('id_form-'+id+'-name').value = String(profile_data[i].name);
+		document.getElementById('id_form-'+id+'-name').readOnly=true;
+		
+		document.getElementById('id_form-'+id+'-domain').selectedIndex= String(profile_data[i].domain- 7);
+		$( "#id_form-"+id+"-domain option:not(:selected)" ).prop('disabled',true); // disable all except selected value
+		
+		document.getElementById('id_form-'+id+'-description').value = String(profile_data[i].description);
+		document.getElementById('id_form-'+id+'-description').readOnly=true;
+		
+		document.getElementById('id_form-'+id+'-slug').value = String(profile_data[i].slug);
+		document.getElementById('id_form-'+id+'-slug').readOnly=true;			
+		$(function () {
+			$("#overlay").hide();
+		});
+		
+	} 
+	else if ( flag == 0) // User
+	{
+		document.getElementById('id_form-'+id+'-name').value = '';
+		document.getElementById('id_form-'+id+'-name').readOnly=false;
+		
+		document.getElementById('id_form-'+id+'-domain').selectedIndex='';
+		$( "#id_form-"+id+"-domain" ).prop('disabled',false);
+		
+		document.getElementById('id_form-'+id+'-description').value = "";
+		document.getElementById('id_form-'+id+'-description').readOnly=false;
+		
+		document.getElementById('id_form-'+id+'-slug').value = "";
+		document.getElementById('id_form-'+id+'-slug').readOnly=false;
+		
+		$(function () {
+			$("#overlay").hide();
+		});
+	}
+	
+
+}
+
+</script>
+
+<div class="row">
+	<div class="col-xs-6 col-md-3">
+		<div id="left-container">
+			<h1>Application Creation</h1><br/>
+			<center><img src="/static/main/img/gadget.png"/><br/><br/><br/></center>
+			<p style="text-align:justify;">
+<!--
+				Στο κοινωνικό δίκτυο του MedWeight μπορείτε να δημιουργήσετε τις <b>δικές σας εφαρμογές.</b><br/>
+				Οι επιλογές δεξιά, σας παρέχουν όλες τις δυνατότητες τις οποίες χρειάζεστε για να μπορείτε να <a href = "/apps/new/">δημιουργήσετε </a>, <a href = "/apps/edit/"> επεξεργαστείτε </a> και <a href = "/apps/run/">εκτελέσετε </a> τις εφαρμογές σας.<br>
+				Ακόμα μπορείτε να <a href = "/apps/domain/new"> εισάγετε ένα νέο πεδίο εφαρμογών </a> και να έχετε μια <a href = "/apps/visualize">γραφική απεικόνιση των εφαρμογών που υπάρχουν μέχρι αυτή τη στιγμή</a>
+-->
+			</p>
+		</div>
+	</div>
+<div class="col-xs-6 col-md-6">
+	<br>
+	<form action="" method="POST">{% csrf_token %}
+		<div class="section" >
+			<table id="first-table">
+			<h2>App Details</h2>
+			{% for field in main_form %}
+				<tr> <td> {{ field.label}} </td>  <td> {{ field}} </td>  </tr>
+				<tr>  <td>  </td> <td>  {% if field.errors %} <div class="alert alert-danger">{{field.errors}}</div> {% endif %} </td>  </tr>
+			{% endfor %}
+			</table>
+		
+		</div>
+
+		<h2>Data</h2>
+		{{ formset.management_form }}
+		{% for form in formset.forms %}
+		<div class="item">
+		  <table id="table"> 
+
+				{% for field in form %}
+					 
+					 <tr> <td> {{ field.label}} </td>  <td> {{ field}} </td>  </tr>
+					 <tr>  <td>  </td> <td>  {% if field.errors %} <div class="alert alert-danger">{{field.errors}}</div> {% endif %} </td>  </tr>
+				{% endfor %}
+			  </table>
+		   <a  class="delete btn btn-danger" href="#">{% trans "Delete" %}</a>
+		</div>
+		{% endfor %}
+		<a class="btn btn-success" id="add" href="#">{% trans "New data" %} </a>
+
+		<input  class="btn btn-success" type="submit" value = "Save" /> 
+	</form>
+</div>
+</div>
+{% endblock %}

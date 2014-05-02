@@ -1,0 +1,68 @@
+{% load relationship_tags %}
+{% load i18n %}
+
+<div class="btn-group">
+
+
+
+<!-- Student follow Teacher (Tutor) -->
+{% if_relationship_possible user otheruser "from_tutor" %}
+	{% if_relationship user otheruser "from_tutor" %}
+		
+	    {# they are following them, so show a "remove" url #}
+	    <a class="btn btn-danger" href="{{ otheruser|remove_relationship_url:"from_tutor" }}"><span class="glyphicon glyphicon-remove">&nbsp;</span>Unfollow tutor</a> 
+
+	  {% else %}
+	  
+	    {# they are not following them, so show a link to start following #}
+	    <a class="btn btn-success" href="{{ otheruser|add_relationship_url:"from_tutor" }}"><span class="glyphicon glyphicon-plus">&nbsp;</span>Follow tutor</a> 
+
+	  {% endif_relationship %}
+{% endif_relationship_possible %}
+
+<!-- Student follow Staff (Facilitator) -->
+{% if_relationship_possible user otheruser "from_facilitator" %}
+	{% if_relationship user otheruser "from_facilitator" %}
+		
+	    {# they are following them, so show a "remove" url #}
+	    <a class="btn btn-danger" href="{{ otheruser|remove_relationship_url:"from_facilitator" }}"><span class="glyphicon glyphicon-remove">&nbsp;</span>Unfollow facilitator</a> 
+
+	  {% else %}
+	  
+	    {# they are not following them, so show a link to start following #}
+	    <a class="btn btn-success" href="{{ otheruser|add_relationship_url:"from_facilitator" }}"><span class="glyphicon glyphicon-plus">&nbsp;</span>Follow facilitator</a> 
+
+	  {% endif_relationship %}
+{% endif_relationship_possible %}
+
+
+
+<br>
+
+<!-- Fellow relationships and requests -->
+<!-- Fellow request -->
+{% if_relationship user otheruser "request_friend" %}
+	<button type="button" class="btn btn-success" disabled="disabled">You have send fellow request</button>
+{% else %}
+
+	{% if_relationship  otheruser user "request_friend" %}
+		<a class="btn btn-success" href="/relationships/{{ user }}/to_accept/" ><span class="glyphicon glyphicon-ok">&nbsp;</span>Repsonse to fellow request</a>
+		{% else %}
+
+		{% if_relationship_possible user otheruser "request_fellow" %}
+			{% if_relationship user otheruser "request_fellow" %}
+				{# they are following them, so show a "remove" url #}
+				<a class="btn btn-danger" href="{{ otheruser|remove_relationship_url:"friends_m" }}"><span class="glyphicon glyphicon-remove">&nbsp;</span>Remove fellow</a>
+				{% else %}
+
+				{# they are not following them, so show a link to start following #}
+				<a class="btn btn-success" href="{{ otheruser|add_relationship_url:"request_friend" }}"><span class="glyphicon glyphicon-ok">&nbsp;</span>Add fellow</a>
+			{% endif_relationship %}
+		{% endif_relationship_possible %}
+	{% endif_relationship %}
+{% endif_relationship %}
+<!-- End of friend relationships and requests -->
+</div>
+
+
+

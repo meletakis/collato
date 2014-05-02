@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}Διαχείριση Σχέσης{% endblock %}
+{% block content %}
+<div id="msg-body">
+  <div id="msg-panel">
+  <div class="panel panel-default">
+  <div class="panel-body">
+  <p>Είστε σίγουροι;</p>
+  <form id="relationship-form" method="post" action="">{% csrf_token %}
+    {{ form.as_table }}
+    <tr><td><img class="img-rounded" src="{{ user.profile.thumbnailURL }}" width="50px"/>&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-arrow-right"></i>&nbsp;&nbsp;&nbsp;<img class="img-rounded" src="{{ to_user.profile.thumbnailURL }}" width="50px"/><br/></td><br></tr>
+    <tr>
+      <th></th>
+      <td><input class="btn btn-success" id="relationship-submit" type="submit" value="{% trans "Επιβεβαίωση" %}"/></td>
+    </tr>
+  </form>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}

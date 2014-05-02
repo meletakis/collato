@@ -1,0 +1,97 @@
+{% load relationship_tags %}
+{% load i18n %}
+
+<div class="btn-group">
+<!-- Regainer follows Dietitian -->
+{% if_relationship_possible user otheruser "regainer_following" %}
+{% if_relationship user otheruser "regainer_following" %}
+	
+    {# they are following them, so show a "remove" url #}
+    <a class="btn btn-danger" href="{{ otheruser|remove_relationship_url:"regainer_following" }}"><span class="glyphicon glyphicon-remove">&nbsp;</span>Μην ακολουθείτε</a> 
+
+  {% else %}
+  
+    {# they are not following them, so show a link to start following #}
+    <a class="btn btn-success" href="{{ otheruser|add_relationship_url:"regainer_following" }}"><span class="glyphicon glyphicon-plus">&nbsp;</span>Ακολουθήστε</a> 
+
+  {% endif_relationship %}
+  {% endif_relationship_possible %}
+
+
+
+<!-- Maintainer follows Dietitian -->
+{% if_relationship_possible user otheruser "maintainer_following" %}
+{% if_relationship user otheruser "maintainer_following" %}
+	
+    {# they are following them, so show a "remove" url #}
+    <a class="btn btn-danger" href="{{ otheruser|remove_relationship_url:"maintainer_following" }}"><span class="glyphicon glyphicon-remove">&nbsp;</span>Μην ακολουθείτε</a> 
+
+  {% else %}
+  
+    {# they are not following them, so show a link to start following #}
+    <a class="btn btn-success" href="{{ otheruser|add_relationship_url:"maintainer_following" }}"><span class="glyphicon glyphicon-plus">&nbsp;</span>Ακολουθήστε</a> 
+
+  {% endif_relationship %}
+  {% endif_relationship_possible %}
+
+
+<!-- Friend relationships and requests -->
+<!-- Friend request -->
+{% if_relationship user otheruser "request_friend" %}
+<button type="button" class="btn btn-success" disabled="disabled">Έχετε αποστείλει αίτημα φιλίας</button>
+{% else %}
+
+	{% if_relationship  otheruser user "request_friend" %}
+	 <a class="btn btn-success" href="/relationships/{{ user }}/to_accept/" ><span class="glyphicon glyphicon-ok">&nbsp;</span>Απαντήστε στο αίτημα φιλίας</a>
+	{% else %}
+
+	<!-- Maintainer befriends Maintainer -->
+	{% if_relationship_possible user otheruser "befriender_maintainers" %}
+	  {% if_relationship user otheruser "befriender_maintainers" %}
+		 {# they are following them, so show a "remove" url #}
+		 <a class="btn btn-danger" href="{{ otheruser|remove_relationship_url:"friends_m" }}"><span class="glyphicon glyphicon-remove">&nbsp;</span>Διαγράψτε από φίλους</a>
+	  {% else %}
+
+	    {# they are not following them, so show a link to start following #}
+	    <a class="btn btn-success" href="{{ otheruser|add_relationship_url:"request_friend" }}"><span class="glyphicon glyphicon-ok">&nbsp;</span>Στείλτε αίτημα φιλίας</a>
+	{% endif_relationship %}
+  {% endif_relationship %}
+{% endif_relationship_possible %}
+
+
+
+<!-- Dietitian befriends Dietitian -->
+{% if_relationship_possible user otheruser "befriender_dietitians" %}
+  {% if_relationship user otheruser "befriender_dietitians" %}
+         {# they are following them, so show a "remove" url #}
+         <a class="btn btn-danger" href="{{ otheruser|remove_relationship_url:"friends_d" }}"><span class="glyphicon glyphicon-remove">&nbsp;</span>Διαγράψτε από φίλους</a>
+  {% else %}
+
+    {# they are not following them, so show a link to start following #}
+    <a class="btn btn-success" href="{{ otheruser|add_relationship_url:"request_friend" }}"><span class="glyphicon glyphicon-ok">&nbsp;</span>Στείλτε αίτημα φιλίας</a>
+
+  {% endif_relationship %}
+{% endif_relationship_possible %}
+
+
+
+<!-- Regainer befriends Regainer -->
+{% if_relationship_possible user otheruser "befriender_regainers" %}
+  {% if_relationship user otheruser "befriender_regainers" %}
+         {# they are following them, so show a "remove" url #}
+         <a class="btn btn-danger" href="{{ otheruser|remove_relationship_url:"friends_r" }}"><span class="glyphicon glyphicon-remove">&nbsp;</span>Διαγράψτε από φίλους</a>
+  {% else %}
+
+    {# they are not following them, so show a link to start following #}
+    <a class="btn btn-success" href="{{ otheruser|add_relationship_url:"request_friend" }}"><span class="glyphicon glyphicon-ok">&nbsp;</span>Στείλτε αίτημα φιλίας</a>
+
+  {% endif_relationship %}
+{% endif_relationship_possible %}
+
+
+<!-- End of friend relationships and requests -->
+{% endif_relationship %}
+</div>
+
+
+

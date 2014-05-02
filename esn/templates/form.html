@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
+
+<div class="red">
+{% if form.non_field_errors %}
+{{ form.non_field_errors }}
+{% endif %}
+</div>
+
+
+<form method="post" action="" class="accountForm marginTop">{% csrf_token %}
+	<table class="" cellspacing="10">
+	{% for field in form %}
+		<tr>
+			<td><p class="hint {%if field.field.required %} bold {% endif %}"{{ field.label_tag }}</p>{{ field }}</td>
+		</tr>
+		{% if field.help_text %}
+			<tr>
+				<td class="clearfix">{{ field.help_text }}</td>
+			</tr>
+		{% endif %} 
+		{% if field.errors %}
+			<tr>
+				<td class="myerrors clearfix">{{ field.errors }}</td>
+			</tr>	
+		{% endif %}
+	{% endfor %}
+		<tr>
+			<td colspan="3" >				
+				<center><big><input type="submit" value="OK" class="btn btn-primary btn-lg"></big></center>
+			</td>
+		</tr>
+	
+	</table>
+
+</form>
+{% endblock %}

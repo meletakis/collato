@@ -1,0 +1,13 @@
+{% load relationship_tags %}
+
+
+
+
+
+{% has_relationship user "fellow" %}
+<a href="/relationships/{{user.username}}/fellow">Fellow</a><br/>
+{% endhas_relationship %}
+
+
+<a href="/relationships/{{user.username}}/to_accept">Fellow Requests</a>
+

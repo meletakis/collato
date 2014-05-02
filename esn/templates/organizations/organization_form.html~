@@ -1,0 +1,29 @@
+{% extends "organizations_base.html" %}
+{% block content %}
+<div class="row">
+<div class="col-xs-6 col-md-3" id="left-container"><br/>
+<form action="." method="post">{% csrf_token %}
+<h1> Δημιουργία ομάδας </h1><br/><br/>
+<p style="text-align:justify;">Για να δημιουργήσετε τη δική σας ομάδα, συμπληρώστε τρία απαραίτητα πεδία: το <b>όνομα</b> της ομάδας σας, μια <b>περιγραφή για το σκοπό</b> της και τέλος, μία <b>εικόνα</b> που τη χαρακτηρίζει. Κατόπιν αυτού, η ομάδα σας είναι ορατή προς όλους τους χρήστες από την επιλογή "Ομάδες" στο κεντριο μενού του κοινωνικού δικτύου.
+</p><br/><br/>
+<center><button class="btn btn-success btn-lg" type="submit">Δημιουργία</button>&nbsp;<a class="btn btn-danger btn-lg" href="/groups">Επιστροφή</a></center><br/><br/>
+</div>
+<div class="col-xs-6 col-md-5"><br/><br/>
+    {{ form.media }}
+    {% for field in form %}
+	<br/>
+	{% if field.label = "Εικόνα" %}
+		<b>{{ field.label }}:</b><br/>{{field}}<input id="thumbURL" name="image_field" type="text" class="form-control" value="{{organization.image}}"/>
+	{% else %}
+	<b>{{ field.label }}:</b><br/>{{field}}	
+	{% endif %}
+    {% endfor %}
+    <br/><br/><br/> 
+    
+
+</div>
+<div class="col-xs-6 col-md-4">
+</div>
+</form>
+</div>
+{% endblock %}

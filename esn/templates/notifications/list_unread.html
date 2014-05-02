@@ -1,0 +1,22 @@
+{% block content %}
+{% load i18n %}
+{% load notifications_tags %}
+<script src="/static/bootstrap/js/bootstrap.js"></script>
+	<link href="/static/main/main.css" rel="stylesheet" type="text/css"/>
+    	<link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+<div id="notifications-list">
+{% notifications_unread as unread_count %}
+<a onclick="window.top.location.href = '/notifications'" href="/notifications"> {% trans "All notifications" %} </a> | {% trans "New notifications" %} ({{ unread_count }})
+<br/><br/>
+{% if unread_count == 0 %}
+	<center><br/><h4>{% trans "There is no notifications" %}</h4></center>
+{% else %}
+	
+	  {% for notice in notifications %}
+		{% include 'notifications/notice.html' %}
+	  {% endfor %}
+<a onclick="window.top.location.href = '/notifications/mark-all-as-read'" href="/notifications/mark-all-as-read">{% trans "Mark as viewed" %}</a>
+</div>	
+{% endif %}
+
+{% endblock %}

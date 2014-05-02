@@ -1,0 +1,40 @@
+{% load url from future %}
+<div id="notification-msg">
+    <div class="media">
+    <a class="pull-left" href="#">
+    <img class="media-object" width="40px" src="{{ notice.actor.profile.thumbnailURL }}">
+    </a>
+    <div class="media-body">
+    <i class="icon-mail{% if notice.unread %}-alt{% endif %}"></i>
+    Ο χρήστης <a onclick="window.top.location.href = '/user/profile/{{notice.actor}}'" href="/user/profile/{{notice.actor}}">{{ notice.actor.profile.displayName }} </a>
+		{% if notice.verb == "Pending" %}
+			σας πρόσθεσε σαν φίλο. 
+		{% elif notice.verb == "Following" %}
+			σας ακολουθεί.
+		{% elif notice.verb == "Friends" %}
+			έγινε φίλος σας.
+		{% elif notice.verb == "wall_post" %}
+			έγραψε στον τοίχο σας.
+		{% elif notice.verb == "Maintainers Followers" %}
+			σας ακολουθεί.
+		{% elif notice.verb == "Maintainers Followers" %}
+			σας ακολουθεί.
+		{% endif %}
+		{% if notice.target %}
+		  of {{ notice.target }}
+		{% endif %}
+
+  
+  <p>{{ notice.timesince }} πριν.</p>
+  
+  <!-- <p>{{ notice.description|linebreaksbr }}</p> -->
+  
+  <div class="notice-actions">
+    {% for action in notice.data.actions %}
+      <a class="btn" href="{{ action.href }}">{{ action.title }}</a>
+    {% endfor %}
+  </div>
+  </div>
+  </div>
+<hr/>
+</div>

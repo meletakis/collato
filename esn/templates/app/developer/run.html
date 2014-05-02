@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+		<div class="row">
+			<div class="col-xs-6 col-md-3">
+				 <div id="left-container"><h3>Run Applications</h3>
+					 <br/><center><img src="/static/main/img/gadget.png" width="120"/></center><br/>
+					 <p style="text-align:justify">
+					 {% if apps %}
+					 Execute application for your role. <br>
+					 <ul class="nav nav-pills nav-stacked"> 
+							 {% for app in apps %}
+								<li>
+								<a onclick=" var source = document.getElementById('iframe');
+											  source.innerHTML = '<iframe id=\'gadget-frame\' src=  {{ app.source_code_host }}&user_id={{ user.get_profile.id }}></iframe>';"  href="#"><span class="glyphicon glyphicon-chevron-right"></span> {{ app.name }}</a> 
+								</li>
+							  {% endfor %}
+					{% endif %}
+					
+					<!--<a href="/apps/new/">New Gadget</a>--> <br>
+					</ul>
+					{% if apps_created %}
+						The applications above is created by you: <br/>
+						 <ul class="nav nav-pills nav-stacked"> 
+						
+							 {% for app in apps_created %}
+								<li>
+								<a onclick=" var source = document.getElementById('iframe');
+											  source.innerHTML = '<iframe id=\'gadget-frame\' src=  {{ app.source_code_host }}&user_id={{ user.get_profile.id }}></iframe>';"  href="#"><span class="glyphicon glyphicon-chevron-right"></span> {{ app.name }}</a> 
+								</li>
+							  {% endfor %}
+						{% endif %}
+					
+					<!--<a href="/apps/new/">New Gadget</a>-->
+					</ul>
+				</div>
+			</div>
+			<div class="col-xs-6 col-md-6"><br/><br/>
+					<div id='iframe'><div class="app-screen-text">Load Application</div>
+			</div>
+		</div>
+
+{% endblock %}

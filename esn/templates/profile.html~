@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>Αρχική Σελίδα</h1>
+
+
+{% if user.is_authenticated %}
+
+ <h3>Καλώς ήλθατε!</h3>
+
+    <p>
+        Καλώς όρισες, χρήστη {{ user.username }} <br>
+        Ο ρόλος σου είναι {{ user.get_profile.role }}!
+   Επισκέψου το <a href="/user/profile">προφίλ</a> σου.    
+    </p>
+
+{% else %}
+	<h3>  Μπορείτε να <a href="/user/login/">συνδεθείτε</a>, χρησιμοποιώντας το username και τον κωδικό σας <br> όπως αυτά ορίστηκαν κατά την εγγραφή σας. <br>
+	Ειδάλως μπορείτε να <a href="/user/register/">εγγραφείτε </a> στο σύστημα μας.
+{% endif %}
+
+</h3>
+
+{% endblock %}

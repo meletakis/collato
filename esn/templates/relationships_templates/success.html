@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <h1>{% trans "Επιτυχία" %}</h1>
+  <p>Οι σχέσεις σας τροποποιήθηκαν επιτυχώς.</p>
+  <p><a href="/user/profile/{{ to_user.username }}">Μετάβαση στο προφίλ του χρήστη {% blocktrans with to_user.username as to_user_username %}{{ to_user_username }}{% endblocktrans %}</a></p>
+{% endblock %}

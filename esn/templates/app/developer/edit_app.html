@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="row">
+	<div class="col-xs-6 col-md-3">
+		<div id="left-container">
+			<h1> Δημιουργία Εφαρμογής</h1><br/>
+			<center><img src="/static/main/img/gadget.png"/><br/><br/><br/></center>
+			<p style="text-align:justify;">
+				Στο κοινωνικό δίκτυο του MedWeight μπορείτε να δημιουργήσετε τις <b>δικές σας εφαρμογές.</b><br/>
+				Οι επιλογές δεξιά, σας παρέχουν όλες τις δυνατότητες τις οποίες χρειάζεστε για να μπορείτε να <a href = "/apps/new/">δημιουργήσετε </a>, <a href = "/apps/edit/"> επεξεργαστείτε </a> και <a href = "/apps/run/">εκτελέσετε </a> τις εφαρμογές σας.<br>
+				Ακόμα μπορείτε να <a href = "/apps/domain/new"> εισάγετε ένα νέο πεδίο εφαρμογών </a> και να έχετε μια <a href = "/apps/visualize">γραφική απεικόνιση των εφαρμογών που υπάρχουν μέχρι αυτή τη στιγμή</a>
+			</p>
+		</div>
+	</div>
+<div class="col-xs-6 col-md-6">
+	<br>
+	<form action="" method="POST">{% csrf_token %}
+		<div class="section" >
+			<table id="first-table">
+			<h2>Πληροφορίες Εφαρμογής</h2>
+			{% for field in main_form %}
+				<tr> <td> {{ field.label}} </td>  <td> {{ field}} </td>  </tr>
+				<tr>  <td>  </td> <td>  {% if field.errors %} <div class="alert alert-danger">{{field.errors}}</div> {% endif %} </td>  </tr>
+			{% endfor %}
+			</table>
+		
+		</div>
+
+		<h2>Δεδομένα</h2>
+		{{ formset.management_form }}
+		{% for form in formset.forms %}
+		<div class="item">
+		  <table id="table"> 
+
+				{% for field in form %}
+					 
+					 <tr> <td> {{ field.label}} </td>  <td> {{ field}} </td>  </tr>
+					 <tr>  <td>  </td> <td>  {% if field.errors %} <div class="alert alert-danger">{{field.errors}}</div> {% endif %} </td>  </tr>
+				{% endfor %}
+			  </table>
+		   <a  class="delete btn btn-danger" href="#">Διαγραφή</a>
+		</div>
+		{% endfor %}
+		<a class="btn btn-success" id="add" href="#">Προσθήκη Δεδομένου</a>
+
+		<input  class="btn btn-success" type="submit" value = "Αποθήκευση" /> 
+	</form>
+</div>
+</div>
+
+{% endblock %}

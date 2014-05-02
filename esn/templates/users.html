@@ -1,0 +1,18 @@
+﻿{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Users</h1>
+
+
+{% for user in user_list %}
+	<!--{% if user.get_profile.role == "Maintainer" %}
+		<a href="/user/profile/{{user.username}}">{{ user }}</a> - {{user.get_profile.role}} <br>
+	{% endif %} -->	
+		<a href="/user/profile/{{user.username}}">{{ user }}</a> - {{user.get_profile.role}} <br>
+{% endfor %}
+
+{{ form.errors }}
+{{ form.non_field_errors }}
+
+{% endblock %}

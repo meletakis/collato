@@ -1,0 +1,17 @@
+{% block content %}
+{% load notifications_tags %}
+{% notifications_unread as unread_count %}
+<a onclick="window.top.location.href = '/notifications'" href="/notifications"> Όλες οι ειδοποιήσεις </a> | Νέες ειδοποιήσεις ({{ unread_count }})
+<br/><br/>
+{% if unread_count == 0 %}
+	<center><br/><h4>Δεν υπάρχουν νέες ειδοποιήσεις</h4></center>
+{% else %}
+	
+	  {% for notice in notifications %}
+		{% include 'notifications/notice.html' %}
+	  {% endfor %}
+<a onclick="window.top.location.href = '/notifications/mark-all-as-read'" href="/notifications/mark-all-as-read">Σήμανση ως αναγνωσμένες ειδοποιήσεις</a>
+</div>	
+{% endif %}
+
+{% endblock %}

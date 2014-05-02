@@ -1,0 +1,75 @@
+{% load notifications_tags %}
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>
+			MedWeight
+		</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>	
+	<script src="/static/bootstrap/js/bootstrap.js"></script>
+	<link href="/static/main/main.css" rel="stylesheet" type="text/css"/>
+    	<link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+	<link rel="shortcut icon" type="image/x-icon" href="/static/main/img/favicon.ico">
+	<link rel="stylesheet" type="text/css" href="/static/main/ajax-search.css" />
+	<link rel="stylesheet" type="text/css" href="/static/main/datepicker.css" />
+	<script src="/static/main/ajax-search.js" type="text/javascript"></script>
+	<script src="/static/main/bootstrap-datepicker.js" type="text/javascript"></script>
+	</head>
+	<body class="yui-skin-sam" id="top">
+		
+		{% block top %}
+		{% if user.is_authenticated %}
+		
+		
+<div class="navbar navbar-default navbar-fixed-top">
+
+    <ul class="nav navbar-nav" id="main-nav">
+      <a class="navbar-brand" href="#"><img width="20" src="/static/main/img/mw-logo.png" alt="MedWeight Logo"/>&nbsp;MedWeight</a>
+      <li><a href="/">Αρχική</a></li>
+      <li><a href="/user/profile/{{user.username}}">Προφίλ</a></li>
+      <li><a href="/user/search">Χρήστες</a></li>  
+      <li><a href="/groups/">Ομάδες</a></li>
+      <li><a href="/apps">Εφαρμογές</a> </li>    
+</ul>
+
+<div id="right-nav-opts">
+<ul class="nav navbar-nav navbar-right">
+	
+	<div id="logged-in-panel">{% notifications_unread as unread_count %}
+<div class="btn-group">
+    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+      <span class="glyphicon glyphicon-bullhorn">&nbsp;<span id="notifications-count">{{ unread_count }}<span></span>
+    </button>
+    <div class="dropdown-menu">
+	<iframe id="notifications-tab" scrolling="yes" frameborder="0" src="/notifications/unread"></iframe>	
+    </div>
+  </div>
+
+&nbsp;<a class="profile-picture-prev" data-toggle="tooltip" title="{{user.profile.displayName}}" href="/user/profile/{{user.username}}"><img src="{{user.profile.thumbnailURL}}" class="img-rounded" title="{{user.profile.displayName}}" /></a>&nbsp;&nbsp;<a href="/user/logout/" class="btn btn-primary">Αποσύνδεση</a></div>
+</ul>
+</div>
+</div>
+		
+		
+			
+			<br>
+		{% else %}
+		
+		
+		{% endif %}
+		
+		{% endblock %}
+		
+		<div id="bd">
+			{% block content %}
+			{% endblock %}
+		</div>
+		
+		<div id="ft">
+			{% block footer %}
+			{% endblock %}
+		</div>	
+		
+	</body>
+</html>

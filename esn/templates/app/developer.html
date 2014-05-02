@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+
+<div class="row">
+	<div class="col-xs-6 col-md-3">
+		<div id="left-container">
+			<h1>Applications</h1><br/>
+			<center><img src="/static/main/img/gadget.png"/><br/><br/><br/></center>
+			<p style="text-align:justify;">
+<!--
+				Στο κοινωνικό δίκτυο του MedWeight μπορείτε να δημιουργήσετε τις <b>δικές σας εφαρμογές.</b><br/>
+				Οι επιλογές δεξιά, σας παρέχουν όλες τις δυνατότητες τις οποίες χρειάζεστε για να μπορείτε να <a href = "/apps/new/">δημιουργήσετε </a>, <a href = "/apps/edit/"> επεξεργαστείτε </a> και <a href = "/apps/run/">εκτελέσετε </a> τις εφαρμογές σας.<br>
+				Ακόμα μπορείτε να <a href = "/apps/domain/new"> εισάγετε ένα νέο πεδίο εφαρμογών </a> και να έχετε μια <a href = "/apps/visualize">γραφική απεικόνιση των εφαρμογών που υπάρχουν μέχρι αυτή τη στιγμή</a>
+-->
+			</p>
+		</div>
+	</div>
+
+	<div class="col-xs-6 col-md-6">
+		<div id="app-actions">
+		<br/><br/>
+		  <h3><span class="glyphicon glyphicon-plus"></span><a href = "/apps/new/">Create Appication</a></h3><br>
+		  <h3><span class="glyphicon glyphicon-trash"></span><a href = "/apps/remove/">Delete Application</a></h3><br>
+		  <h3><span class="glyphicon glyphicon-pencil"></span><a href = "/apps/edit/">Edit Application</a></h3><br>
+		  <h3><span class="glyphicon glyphicon-off"></span><a href = "/apps/run/">Execute Applications</a></h3><br>
+		  <h3><span class="glyphicon glyphicon-folder-open"></span><a href = "/apps/domain/new">Insert new domain</a></h3><br>
+		  <h3><span class="glyphicon glyphicon-eye-open"></span><a href = "/apps/visualize">Applications Visualization</a></h3><br>
+		</div>
+		<br>
+	</div>
+
+	<div class="col-xs-6 col-md-3">
+	</div>
+</div>
+
+
+{% endblock %}

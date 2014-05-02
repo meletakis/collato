@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block title %}{% trans "Επεξεργασία προφίλ" %}{% endblock %}
+
+{% block content %}
+<script type="text/javascript">
+$(function() {
+    $( ".datepicker" ).datepicker();
+  });
+</script>
+<div class="row">
+<form action="." id="testFormCicu" method="POST">{% csrf_token %}
+<fieldset id="profile-edit-form">
+	{{ image_form.media }}
+        
+  <div class="col-xs-6 col-md-3" id="left-content">
+
+	<h1>{% trans "Επεξεργασία προφίλ" %}</h1>
+	{% for field in form %}
+	{% if field.label = "Εικόνα" %}
+	<b>{{ field.label}}:</b>{{field}}{{ image_form.as_p }}<br/>
+	{% endif %}
+	{% if field.label = "Εμφανιζόμενο Όνομα"%}
+	<b>{{ field.label}}:</b>{{field}}<br/>
+	{% endif %}
+	{% if field.label = "Ονοματεπώνυμο"%}
+	<b>{{ field.label}}:</b>{{field}}<br/>
+	{% endif %}
+	{% if field.label = "Φύλο"%}
+	<b>{{ field.label}}:</b>{{field}}<br/>
+	{% endif %}
+	{% endfor %}
+	<center><button class="btn btn-success" type="submit">{% trans "Αποθήκευση" %}</button>&nbsp;<a class="btn btn-danger" href="/user/profile/{{ user.username }}">Επιστροφή στο προφίλ</a><br/></center>
+	
+  </div>
+  <div class="col-xs-6 col-md-5">
+	<br/>
+	<br/>
+	
+	{% for field in form %}
+	{% if field.label = "Περιγραφή" %}
+	<b>{{ field.label}}:</b>{{field}}<br/>
+	{% endif %}
+	{% if field.label = "Περιοχή" %}
+	<b>{{ field.label}}:</b>{{field}}<br/>
+	{% endif %}
+	{% if field.label = "Ημερομηνία Γέννησης" %}
+	<b>{{ field.label}}:</b>{{field}}<br/>
+	{% endif %}
+	{% if field.label = "Οικογενειακή Κατάσταση" %}
+	<b>{{ field.label}}:</b>{{field}}<br/>
+	{% endif %}
+	{% if field.label = "Δραστηριότητες" %}
+	<b>{{ field.label}}:</b>{{field}}<br/>
+	{% endif %}
+	{% if field.label = "Σπουδές" %}
+	<b>{{ field.label}}:</b>{{field}}<br/>
+	{% endif %}
+{% endfor %}
+	
+            
+        
+</div>
+<div class="col-xs-6 col-md-4"><br/><br/>
+{% for field in form %}
+	{% if field.label = "Αγαπημένο φαγητό" %}
+	<b>{{ field.label}}:</b>{{field}}<br/>
+	{% endif %}
+	{% if field.label = "Αγαπημένο άθλημα" %}
+	<b>{{ field.label}}:</b>{{field}}<br/>
+	{% endif %}
+	{% if field.label = "Ενδιαφέροντα" %}
+	<b>{{ field.label}}:</b>{{field}}<br/>
+	{% endif %}
+{% endfor %}
+</div>
+</fieldset></form>
+</div>
+
+
+    
+{% endblock %}

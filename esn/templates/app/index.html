@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+
+
+  
+<div class="row" id="left-content">
+  <div class="col-xs-6 col-md-4" >
+
+  <h1>Δημιουργία εφαρμογής</h1><br>
+  <form action="" method="POST">{% csrf_token %}
+
+  <table id="table"> 
+
+
+    {% for field in app_form %}
+
+        <tr> <td> {{ field.label}}: </td>  <td> {{ field}} </td>  </tr>
+        <tr>  <td>  </td> <td>  {% if field.errors %} <div class="alert alert-danger">{{field.errors}}</div> {% endif %} </td>  </tr>
+    {% endfor %}
+     <tr> <td> </td> <td> <button class="btn btn-success" type="submit">Αποθήκευση </button> </td> </tr>
+  </table>
+<br>
+
+</div>
+
+  <div class="col-xs-6 col-md-5">
+    <h2>Δεδομένα</h2>
+    {{ app_data_formset.management_form }}
+    {% for form in app_data_formset.forms %}
+    <div class ="item" >
+     <table id="table"> 
+
+        {% for field in form %}
+             
+             <tr> <td> {{ field.label}}: </td>  <td> {{ field}} </td>  </tr>
+             <tr>  <td>  </td> <td>  {% if field.errors %} <div class="alert alert-danger">{{field.errors}}</div> {% endif %} </td>  </tr>
+        {% endfor %}
+      </table>
+
+       <a class="btn btn-danger" id="delete" href="#">Delete</a></p>
+      </div>
+
+    {% endfor %}
+
+    <p><a class="btn btn-success" id="add" href="#">Add another data</a></p>
+
+</form>
+  <div/>
+  <div/>
+{% endblock %}

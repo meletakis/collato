@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% csrf_token %}
+<h1>Registration test</h1>
+
+{% include "form.html" %}
+
+{% endblock %}

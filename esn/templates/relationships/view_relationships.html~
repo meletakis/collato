@@ -1,0 +1,49 @@
+{% load relationship_tags %}
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+     
+    $(function () {
+        $("[rel='tooltip']").tooltip();
+    });
+</script>
+
+{% has_relationship user "maintainer_following" %}
+{% can_follow user "maintainer_following" %}
+<a href="/relationships/{{user.username}}/maintainer_following">Διαιτολόγοι που ακολουθείτε</a><br/>
+{% endcan_follow %} 
+{% endhas_relationship %}
+
+{% has_relationship user "maintainer_follower" %}
+{% can_be_followed user "maintainer_follower" %}
+<a href="/relationships/{{user.username}}/maintainer_follower">Maintainers που σας ακολουθούν</a><br/>
+{% endcan_be_followed %}
+{% endhas_relationship %}
+
+{% has_relationship user "regainer_following" %}
+{% can_follow user "regainer_following" %}
+<a href="/relationships/{{user.username}}/regainer_following">Διαιτολόγοι που ακολουθείτε</a><br/>
+{% endcan_follow %}
+{% endhas_relationship %}
+
+{% has_relationship user "regainer_follower" %}
+{% can_be_followed user "regainer_follower" %}
+<a href="/relationships/{{user.username}}/regainer_follower">Regainers που σας ακολουθούν</a><br/> 
+{% endcan_be_followed %}
+{% endhas_relationship %}
+
+{% has_relationship user "friends_r" %}
+<a href="/relationships/{{user.username}}/friends_r">Φίλοι</a><br/>
+{% endhas_relationship %}
+
+{% has_relationship user "friends_m" %}
+<a href="/relationships/{{user.username}}/friends_m">Φίλοι</a><br/>
+{% endhas_relationship %}
+
+{% has_relationship user "friends_d" %}
+<a href="/relationships/{{user.username}}/friends_d">Φίλοι</a><br/> 
+{% endhas_relationship %}
+
+<a href="/relationships/{{user.username}}/to_accept">Αιτήματα Φιλίας</a>
+

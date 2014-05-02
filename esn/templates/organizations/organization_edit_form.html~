@@ -1,0 +1,28 @@
+{% extends "organizations_base.html" %}
+{% block content %}
+<div class="row">
+<div class="col-xs-6 col-md-3" id="left-container"><br/>
+<form action="." method="post">{% csrf_token %}
+<h1>Επεξεργασία ομάδας </h1><br/><br/>
+Τροποποιήσατε τα στοιχεία σας της ομάδας; Πατήστε <b>Αποθήκευση</b>!<br/><br/>
+<center><button class="btn btn-success btn-lg" type="submit">Αποθήκευση</button>&nbsp;<a class="btn btn-danger btn-lg" href="/groups">Επιστροφή</a></center><br/><br/>
+</div>
+<div class="col-xs-6 col-md-5"><br/><br/>
+    {{ form.media }}
+    {% for field in form %}
+	<br/>
+	{% if field.label = "Εικόνα" %}
+		<b>{{ field.label }}:</b><br/><input id="thumbURL" name="image_field" type="text" class="form-control" value="{{organization.image}}"/>{{field}}
+	{% else %}
+	<b>{{ field.label }}:</b><br/>{{field}}	
+	{% endif %}
+    {% endfor %}
+    <br/><br/><br/> 
+    
+
+</div>
+<div class="col-xs-6 col-md-4">
+</div>
+</form>
+</div>
+{% endblock %}

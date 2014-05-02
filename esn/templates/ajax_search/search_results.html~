@@ -1,0 +1,4 @@
+<form class="searchfield" method="get" action="/ajax_search/search/" autocomplete="off">
+  {{ searchentryform.q }}
+  <input id="searchbuttonmain" type="submit" class="subbtn" value="Search">
+</form>

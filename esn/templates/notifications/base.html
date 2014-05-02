@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>
+			MedWeight
+		</title>
+
+	</head>
+	<body class="yui-skin-sam" id="top">
+		
+		{% block top %}
+		{% if user.is_authenticated %}
+		
+	   <div id='home' style="float:left" />	
+			<a href="/">Αρχική</a>&nbsp;&nbsp;&nbsp;<a href="/user/profile/{{user.username}}">Προφίλ</a>&nbsp;&nbsp;&nbsp;<a href="/user/all">Χρήστες</a>
+		</div>
+		
+		
+		
+			<div id='header' style="float:right" />	
+				<a href="/user/logout/">Αποσύνδεση</a> 
+			</div>
+			<br>
+		{% else %}
+		
+		<div id='home' style="float:left" />	
+			<a href="/">Αρχική</a>
+		</div>
+			<div id='header' style="float:right" />	
+				<a href="/user/login/">Σύνδεση</a> - <a href="/user/register/">Εγγραφή</a>	
+			</div>
+			<br>
+		{% endif %}
+		
+		{% endblock %}
+		
+		<div id="bd">
+			{% block content %}
+			{% endblock %}
+		</div>
+		
+		<div id="ft">
+			{% block footer %}
+			{% endblock %}
+		</div>	
+		
+	</body>
+</html>

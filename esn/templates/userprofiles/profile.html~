@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block content %}
+{% load relationship_tags %}
+{% load notifications_tags %}
+
+ 
+
+
+{% if user.is_authenticated %}
+
+<div class="row">
+  
+<div class="col-xs-6 col-md-3">
+ 
+ <div id="left-container"><h1>{{ displayName }}</h1><br/><p>
+<a href="{{thumbnailURL}}" target="_blank"><img class="img-thumbnail" width="150" src="{{thumbnailURL}}" alt="User Profile Picture"/></a><br/><br/>
+<b>Όνομα: </b> {{name}}<br/>
+<b>Φύλο: </b> {{gender}}<br/>
+<b>Γενέθλια: </b> {{birthday}}<br/>
+<b>Σχετικά με εμένα: </b> {{aboutMe}}<br/>
+<b>Κατάσταση: </b> {{status}}<br/>
+<b>Περιοχή: </b> {{location}}<br/>
+<b>Δραστηριότητες: </b>
+<ul>
+{% for activity in activities.all %}
+	<li>{{ activity.activity }} </li>
+{% endfor %}
+</ul>
+<b>Σπουδές: </b> {{studies}}<br/>
+<b>Αγαπημένο Φαγητά: </b> {{favouriteFood}}<br/>
+<b>Αγαπημένα Αθλήματα: </b> {{favouriteSport}}<br/>
+<b>Λοιπά Ενδιαφέροντα: </b> {{interests}}<br/>
+</p> 
+
+{% if user.is_authenticated %}
+{% if user.username = username %}
+<br/>{% include "relationships/view_relationships.html" %}
+ 
+
+{% endif %}
+{% endif %}
+</div>
+</div>
+<div class="col-xs-6 col-md-6" id="center-content">
+	<div id="wall-posts">
+	{% autoescape off %}
+	{% include "userprofiles/wall.html" %}
+	{% endautoescape %}
+	</div>
+
+</div> 
+<div class="col-xs-6 col-md-3">
+<div id="profile-options">
+{% if user.username = username %}
+<div class="alert alert-info" id="help-text-container"><span class="glyphicon glyphicon-question-sign">&nbsp;<strong>Βοήθεια</strong></span><hr/>
+<p id="help-text">Περάστε το ποντίκι σας πάνω από τις διαθέσιμες επιλογές σας στη σελίδα που βρίσκεστε και μάθετε περισσότερα για αυτές.</p>
+
+</div>
+ <a href="/user/profile/edit/{{username}}" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-pencil">&nbsp;</span>Επεξεργασία Προφίλ</a> 
+
+{% else %}
+
+
+{% include "relationships/handle_relationships.html" %}
+{% endif %}
+</div>
+</div>
+</div>
+
+
+
+{% else %}
+	{% include "index.html" %}
+{% endif %}
+
+
+{% endblock %}

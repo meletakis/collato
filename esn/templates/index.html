@@ -1,0 +1,39 @@
+<html>
+	<head>
+		<title>
+			MedWeight
+		</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>	
+	<script src="/static/bootstrap/js/bootstrap.js"></script>
+	<link href="/static/main/main.css" rel="stylesheet" type="text/css"/>
+    	<link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+	<link rel="shortcut icon" type="image/x-icon" href="/static/main/img/favicon.ico">
+	<link rel="stylesheet" type="text/css" href="/static/main/ajax-search.css" />
+	<script src="/static/main/ajax-search.js" type="text/javascript"></script>
+	</head>
+	<body>
+{% block content %}
+{% if user.is_authenticated %}
+<script type="text/javascript">window.location.href='/'</script>
+{% else %}
+<div class="jumbotron" id="jumbo">
+  <div class="container">
+    <h1><img style="float:left;" src="/static/main/img/mw-logo.png" alt="MedWeight Logo"/>&nbsp;Καλώς ήλθατε!</h1>
+    <br/><p>
+        Η μελέτη <b>MedWeight</b> στοχεύει:
+<ul>
+	<li>Να αξιολογήσει τις συμπεριφορές που συμβάλλουν στη μακροχρόνια διατήρηση της απώλειας βάρους.</li>
+	<li>Να ενημερώσει σχετικά τους επαγγελματίες υγείας, ώστε να βοηθούν πιο αποτελεσματικά τους ασθενείς τους.</li>
+	<li>Να ενημερώσει και τα ίδια τα άτομα που προσπαθούν να βελτιώσουν το βάρος τους.</li>  
+    </p>
+    <p><center><b>Πάρτε Μέρος:</b><br/><div class="btn-group btn-group-lg"><a href="http://medweight.hua.gr" target="_blank" class="btn btn-success">Ιστοσελίδα της Μελέτης</a><a href="/user/login/" class="btn btn-primary">Σύνδεση Χρήστη</a></div></center></p>
+	
+  </div>
+</div>
+{% endif %}
+
+
+{% endblock %}
+</body>
+</html>

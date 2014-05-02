@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load url from future %}
+{% load activity_tags i18n %}
+
+
+{% block content %}
+
+<script type="text/javascript">
+
+function set_help_text(text) {
+	document.getElementById("help-text").innerHTML = text;
+}
+
+function set_default_help_text(text) {
+	document.getElementById("help-text").innerHTML = 'Περάστε το ποντίκι σας πάνω από τις διαθέσιμες επιλογές σας στη σελίδα που βρίσκεστε και μάθετε περισσότερα για αυτές.';
+}
+
+function set_post_type_menu() {
+	document.getElementById("post-menu").style["height"] = "auto";
+	document.getElementById("post-menu").style["overflow"] = "hidden";
+	document.getElementById('post-menu').innerHTML= '<li><a href="#" onmouseout="set_default_help_text()" onmouseover="set_help_text(\'Να βλέπουν τη δημοσίευση σας όλοι οι χρήστες, είτε έχετε κάποια σχέση μαζί τους, είτε όχι.\')" onclick="document.getElementById(\'post-option\').innerHTML=\' Public \';document.getElementById(\'target\').value=\'Public\';">Δημόσια</a></li><li><a href="#" onmouseout="set_default_help_text()" onmouseover="set_help_text(\'Να βλέπουν τη δημοσίευση σας μόνο όσοι είναι <b>Φίλοι</b> σας.\')" onclick="document.getElementById(\'post-option\').innerHTML=\' Friends \';document.getElementById(\'target\').value=\'Friends\';">Φίλοι</a></li><li><a href="#" onclick="document.getElementById(\'post-option\').innerHTML=\' onmouseout="set_default_help_text()" onmouseover="set_help_text(\'Να βλέπουν τη δημοσίευση σας μόνο όσοι σας ακολουθούν.\')" Followers \';document.getElementById(\'target\').value=\'Followers\';">Ακόλουθοι</a></li><li><a href="#" onmouseout="set_default_help_text()" onmouseover="set_help_text(\'Να δει τη δημοσίευση σας ένας συγκεκριμένος χρήστης.\')" onclick="document.getElementById(\'post-option\').innerHTML=\' User \';document.getElementById(\'target\').value=\'User\';">Χρήστης</a></li><li><a onmouseout="set_default_help_text()" onmouseover="set_help_text(\'Να βλέπετε <b>μόνο</b> εσείς τη δημοσίευση σας.\')" href="#" onclick="document.getElementById(\'post-option\').innerHTML=\' Me \';document.getElementById(\'target\').value=\'Me\';">Εγώ</a></li>';
+}
+
+function set_post_user_menu() {
+	document.getElementById("post-menu").style["height"] = "200px";
+	document.getElementById("post-menu").style["overflow"] = "auto";
+	document.getElementById('post-menu').innerHTML= "{% for contact in contacts %}<li><a href='#' onclick='insertAtCursor(\"{{contact.username}}\")'><div class='media'><span class='pull-left'><img src='{{ contact.profile.thumbnailURL }}' width='20'\/\></span><div class='media-body'>{{contact.profile.displayName}}</div></div></a></li>{% endfor %}";
+}
+
+function insertAtCursor(myValue) {
+    myField = document.getElementById('content');
+    //IE support
+    if (document.selection) {
+        myField.focus();
+        sel = document.selection.createRange();
+        sel.text = '@'+myValue;
+    }
+    //MOZILLA and others
+    else if (myField.selectionStart || myField.selectionStart == '0') {
+        var startPos = myField.selectionStart;
+        var endPos = myField.selectionEnd;
+        myField.value = myField.value.substring(0, startPos)
+            + '@'+myValue
+            + myField.value.substring(endPos, myField.value.length);
+    } else {
+        myField.value += '@'+myValue;
+    }
+}
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+
+     
+    $(function () {
+        $("[rel='tooltip']").tooltip();
+    });
+});
+</script>
+<div class="row">
+<div class="col-xs-6 col-md-3">
+<br/><div id="left-container">
+<table><tr><td><img src="/static/main/img/mw-logo.png" width="150"/></td><td><p class="lead">Κοινωνικό Δίκτυο <b>MedWeight</b></p></td></tr></table>
+<br/><h2>Καλωσήρθατε!</h2><p style="text-align:justify">Καλωσήρθατε στο κοινωνικό δίκτυο MedWeight. Αποτελεί το επόμενο βήμα της ομώνυμης έρευνας, όπου οι χρήστες μας καλούνται να έρθουν σε επαφή μεταξύ τους,
+καθώς και με ειδικευμένων διαιτολόγων.<br/><br/> Όλα ξεκινούν με το <a href="user/profile/{{username}}">Προφίλ Χρήστη</a> σας και τις πληροφορίες που καλείστε να συμπληρώσετε για να αλληλεπιδράσετε με τους άλλους χρήστες. Συμπληρώστε στοιχεία του προφίλ σας, πατώντας το παρακάτω κουμπί:</p><br/>
+<center><a href="/user/profile/edit/{{username}}" onmouseout="set_default_help_text()" onmouseover="set_help_text('Τροποποιήστε τις πλρηροφορίες που συγκρατεί το προφίλ σας, πατώντας αυτό το κουμπί. Μπορείτε αργότερα να τις ξανατροποποιήσετε επισκεπτόμενοι το προφίλ σας και κάνοντας κλικ στην επιλογή <b>Επεξεργασία προφίλ</b>.')" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-pencil">&nbsp;</span>Συμπλήρωση Προφίλ</a></center>
+</div></div>
+<div class="col-xs-6 col-md-6" id="center-content">
+
+<br/><br/>
+<form id="testFormCicu" action="/activity/new_wall_post/" method="post">{% csrf_token %}
+   {{ image_form.media }}
+    <textarea name="content" id = "content" class="form-control" placeholder="Πληκτρολογείστε το μήνυμα σας..."></textarea><br/>
+    <div class="input-group-btn"><input onmouseout="set_default_help_text()" onmouseover="set_help_text('Πιέστε <b>Δημοσίευση</b> για να δημοσιεύσετε το μήνυμα σας.')" class="btn btn-primary" id="submit" type="submit" value="Δημοσίευση" />
+	<input type="hidden" name="target" id="target" value="Public"/>
+     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" onclick="set_post_type_menu()" onmouseout="set_default_help_text()" onmouseover="set_help_text('Με αυτή την επιλογή επιλέγετε την ομάδα χρηστών στην οποία θα κοινοποιηθεί η δημοσίευση σας.')"><span class="glyphicon glyphicon-eye-open"></span><span id="post-option"> Δημόσια </span></button><ul class="dropdown-menu" role="menu" id="post-menu">
+          
+        </ul> <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" onmouseout="set_default_help_text()" onmouseover="set_help_text('Με αυτή την επιλογή επιλέγετε ένα χρήστη τον οποίο θα θέλατε να αναφέρετε στη δημοσίευση σας. Ο χρήστης ενημερώνεται για την αναφορά.')" onclick="set_post_user_menu()"><span class="glyphicon glyphicon-user"></span></button> {{ image_form.as_table }}</div>
+	
+    <input type="hidden" name="actor_name" id="actor_name" value={{ actor.username }} />	
+     
+</form>
+<hr/>
+
+
+{% include page_template %}
+
+
+  
+</div>
+<div class="col-xs-6 col-md-3">
+<div class="alert alert-info" id="help-text-container"><span class="glyphicon glyphicon-question-sign">&nbsp;<strong>Βοήθεια</strong></span><hr/>
+<p id="help-text">Περάστε το ποντίκι σας πάνω από τις διαθέσιμες επιλογές σας στη σελίδα που βρίσκεστε και μάθετε περισσότερα για αυτές.</p>
+<div class="user-preview">
+<h3>Προτεινόμενοι χρήστες:</h3>
+{% for u in users %}
+<a href="/user/profile/{{u.username}}" target="_blank"><img class="img-thumbnail" rel="tooltip" data-toggle="tooltip" data-placement="top" title data-original-title="{{u.profile.displayName}}" src="{{ u.profile.thumbnailURL }}"/></a>
+{% empty %}
+<br/><p class="alert alert-danger" id="help-text-container"><b>0 Προτεινόμενοι φίλοι!</b> Διευρύνετε το προφίλ σας για να σας συστήσουμε πιθανούς φίλους ή χρησιμοποιήστε την αναζήτηση!</p>
+{% endfor %}
+</div>
+</div>
+</div>
+</div>
+
+{% block js %}
+	{{ block.super }}
+    <script src="/static/endless_pagination/js/endless-pagination.js"></script>
+    <script>
+        $.endlessPaginate({
+            paginateOnScroll: true,
+            paginateOnScrollMargin: 20
+        });
+    </script>
+{% endblock %}
+
+{% endblock %}

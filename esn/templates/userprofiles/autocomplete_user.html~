@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+<script type="text/javascript">
+$(document).ready(function(){
+     $( "input#n" ).autocomplete({
+                            source: "{% url autocomplete_city %}",
+                            minLength: 2
+        });
+});
+</script>
+<input id="n" type="text" name="n"/>

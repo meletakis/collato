@@ -1,0 +1,35 @@
+<html>
+	<head>
+		<title>
+			MedWeight
+		</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>	
+	<script src="/static/bootstrap/js/bootstrap.js"></script>
+	<link href="/static/main/main.css" rel="stylesheet" type="text/css"/>
+    	<link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+	<link rel="shortcut icon" type="image/x-icon" href="/static/main/img/favicon.ico">
+	<link rel="stylesheet" type="text/css" href="/static/main/ajax-search.css" />
+	<script src="/static/main/ajax-search.js" type="text/javascript"></script>
+	</head>
+	<body>
+{% block content %}
+{% if user.is_authenticated %}
+<script type="text/javascript">window.location.href='/'</script>
+{% else %}
+<div class="jumbotron" id="jumbo">
+  <div class="container">
+    <h1 style="color:red;"><img style="float:left; color:red;" src="/static/main/img/mw-logo.png" alt="MedWeight Logo"/>&nbsp;Κάποιο λάθος συνέβη</h1>
+    
+    <h2>Κάποιο λάθος συνέβη</h1>
+    
+    
+	
+  </div>
+</div>
+{% endif %}
+
+
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block content %}
+<script type="text/javascript">
+$(document).ready(function(){
+
+     
+    $(function () {
+        $("[rel='tooltip']").tooltip();
+    });
+     $( "input#n" ).autocomplete({
+                            source: "{% url 'autocomplete_user' %}",
+                            minLength: 1,
+			    messages: {
+				noResults: function() { document.getElementById("results").innerHTML="<center>Κανένα αποτέλεσμα.</center>"},
+				results: function() {document.getElementById("results").innerHTML="<center>Κανένα αποτέλεσμα.</center>"}
+			    },
+			    select:  function( event, ui ) { 
+            			window.location.href = '/user/profile/'+ui.item.value;
+        		    }	
+			    
+        }).data( "uiAutocomplete" )._renderItem = function( ul, item ) {
+        var inner_html = '<br/><a><div class="media"><span class="pull-left"><img class="media_object img-thumbnail" width=45 src="' + item.image + '"></span><div class="media-body">' + item.label + '</div></div></a>';
+
+        return $( "<li></li>" )
+            .data( "item.autocomplete", item )
+            .append(inner_html)
+            .appendTo( ul );
+    };
+});
+</script>
+<div class="row">
+<div class="col-xs-6 col-md-4">
+<div id="left-container">
+<div class="user-preview">
+<h3>Προτεινόμενοι χρήστες:</h3>
+{% for u in users %}
+<a href="/user/profile/{{u.username}}" target="_blank"><img class="img-thumbnail" rel="tooltip" data-toggle="tooltip" data-placement="top" title data-original-title="{{u.profile.displayName}}" src="{{ u.profile.thumbnailURL }}"/></a>
+{% empty %}
+<br/><p class="alert alert-danger"><b>0 Προτεινόμενοι φίλοι!</b> Διευρύνετε το προφίλ σας για να σας συστήσουμε πιθανούς φίλους ή χρησιμοποιήστε την αναζήτηση!</p>
+{% endfor %}
+</div>
+</div>
+</div>
+<div class="col-xs-6 col-md-4" id="center">
+<br/>
+<div class="well well-lg">
+    <h2>Αναζήτηση Χρηστών</h2><br/><p class="lead" style="text-align:justify;">Αναζητήστε το κοινωνικό δίκτυο του MedWeight, πληκτρολογώντας το όνομα ή μέρος του ονόματος ενός χρήστη για να επισκεπτείτε το προφίλ του.</p>
+	<div id="wall-posts">
+<div class="input-group input-group-lg">
+<input id="n" type="text" name="n" class='form-control' placeholder='Αναζητήστε Χρήστες'/>
+<span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+</div>
+<br/></div>
+</div>
+
+</div>
+<div class="col-xs-6 col-md-4">
+<div class="alert alert-info" id="help-text-container"><span class="glyphicon glyphicon-question-sign">&nbsp;<strong>Βοήθεια</strong></span><hr/>
+<p id="help-text">Περάστε το ποντίκι σας πάνω από τις διαθέσιμες επιλογές σας στη σελίδα που βρίσκεστε και μάθετε περισσότερα για αυτές.</p>
+
+</div>
+<h3>Χρήστες του MedWeight:</h3>
+{% for u in random_users %}
+<a href="/user/profile/{{u.username}}" target="_blank"><img class="small" rel="tooltip" data-toggle="tooltip" data-placement="top" title data-original-title="{{u.profile.displayName}}" src="{{ u.profile.thumbnailURL }}"/></a>
+{% endfor %}
+</div>
+</div>
+
+{% endblock %}
+
+

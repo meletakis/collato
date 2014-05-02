@@ -1,0 +1,30 @@
+
+
+{% block content %}
+<center>
+
+
+<div class="jumbotron" id="jumbo">
+  <div class="container">
+
+<img width="180" src="/static/main/img/mw-logo.png" alt="MedWeight Logo"/>
+<h1>Σύνδεση</h1>
+
+{% if user.is_authenticated %}
+Hi, ({{ user.username }}). <a href="{% url 'auth_logout' %}">Αποσύνδεση</a>
+{% else %}
+
+{% include "form.html" %}
+    
+
+    <a href="{% url 'auth_password_reset' %}">Ανάκτηση Κωδικού</a><!-- | <a href="/user/register/">Εγγραφή--></a>
+  
+{% endif %}
+
+</div>
+<footer class="site-footer">
+  I'm the Sticky Footer.
+</footer>
+</div>
+</center>
+{% endblock %}

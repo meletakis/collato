@@ -1,0 +1,68 @@
+#searchdropdown{
+        width:264px; 
+        height:auto; 
+/* Set the following values according to the placement of the search box */
+/*        position:absolute; 
+        top:70px; 
+        right:176px; */
+        background:white;
+        z-index:995; 
+        display:none;
+        border-left:1px solid #cccccc;
+        border-right:1px solid #cccccc;
+        border-bottom:1px solid #cccccc;
+        -moz-box-shadow: 0px 0px 3px #ffffff;
+    -webkit-box-shadow: 0px 0px 3px #ffffff;
+    box-shadow: 0px 0px 3px #ffffff;
+}
+
+
+
+.searchdropdowndiv{
+border-top:1px dotted #e8e8e8;
+background: -moz-linear-gradient(top,#fefefe , #f9f9f9);
+background: -webkit-gradient(linear, left top, left bottom, from(#fefefe), to(#f9f9f9));
+background: -webkit-linear-gradient(#fefefe, #f9f9f9);
+        background: -ms-linear-gradient(#fefefe, #f9f9f9);
+        background: -o-linear-gradient(#fefefe, #f9f9f9);
+        background: linear-gradient(#fefefe, #f9f9f9);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fefefe', endColorstr='#f9f9f9');
+        zoom: 1;
+}
+
+.searchdropdowndiv:hover{
+        background:#f9f9f9;
+        border-top:1px dotted #e8e8e8;
+}
+
+
+
+.requiredsearchmain{
+background:#ffffff;
+    width: 250px;
+    padding: 5px 7px 5px 7px;
+    height:20px;
+    outline:none;
+            font-size:16px;
+        font-family:Helvetica, sans-serif;
+color:#333333;
+-moz-border-radius: 2px;
+border-radius: 2px;
+border:1px solid #cccccc;
+    -webkit-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15) inset;
+    -moz-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15) inset;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15) inset;
+    }
+.requiredsearchmain:hover{
+border:1px solid #aaaaaa;
+-moz-box-shadow: inset 0 1px 2px rgba(0,0,0,.4);
+   -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,.4);
+   box-shadow: inset 0 1px 2px rgba(0,0,0,.24);
+}
+.requiredsearchmain:focus{
+        background:#ffffff;
+    border:1px solid #4d90fe;
+-moz-box-shadow: inset 0 1px 3px rgba(0,0,0,.4);
+   -webkit-box-shadow: inset 0 1px 3px rgba(0,0,0,.4);
+   box-shadow: inset 0 1px 3px rgba(0,0,0,.24);
+}

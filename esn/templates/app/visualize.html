@@ -1,0 +1,262 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+
+<script type="text/javascript"> 
+
+$(document).ready(function () {
+
+	var apps_info = {{apps_info|safe}};
+	var data = {{data|safe}};
+	console.log (data);
+	var mainCanvas = document.getElementById("mainCanvas");
+	var style_counter_x = 1;
+	var style_counter_y = 1;
+	
+
+	for ( var i=0; i< apps_info.length;i++)
+	{
+		if (style_counter_x % 3 == 0 )
+		{
+			style_counter_x = 0;
+			style_counter_y++;
+		}
+		if ( apps_info[i].active )
+				mainCanvas.innerHTML += "<p class='block draggable block_app btn btn-default btn-lg' id='"+apps_info[i].id+"' style='left: "+style_counter_x*400+"px; top: "+style_counter_y*100+"px;' ondblclick='vizualize_specific_app("+apps_info[i].id+")'  >"+
+					"<span class='glyphicon glyphicon-cog'></span>"+
+					apps_info[i].name+" <br> ("+apps_info[i].responsibility+") - (<a href='/user/profile/"+apps_info[i].author+"/' target ='blank' >"+apps_info[i].author+"</a>) </p> "
+		else
+			mainCanvas.innerHTML += "<p class='block draggable block_app_idle btn btn-default btn-lg' id='"+apps_info[i].id+"' style='left: "+style_counter_x*400+"px; top: "+style_counter_y*100+"px;' ondblclick='vizualize_specific_app("+apps_info[i].id+")'  >"+
+				"<span class='glyphicon glyphicon-cog'></span>"+apps_info[i].name+" <br> ("+apps_info[i].responsibility+") - (<a href='/user/profile/"+apps_info[i].author+"/' target ='blank' >"+apps_info[i].author+"</a>) </p> "
+		style_counter_x++;
+	}
+	
+    style_counter_x = 0;
+    style_counter_y++;
+	for ( var i=0; i< data.length;i++)
+	{
+		if ( data[i].from == "Idle_Application_Input" )
+		{
+			mainCanvas.innerHTML += "<p class='block draggable block_idle_app_input btn btn-default btn-lg' id='Idle_Application_Input"+i+"' style='left: "+style_counter_x*400+"px; top: "+style_counter_y*100+"px;'  >"+
+				"<span class='glyphicon glyphicon-log-in'></span>Idle Application Input </p> ";
+			if (style_counter_x % 3 == 0 )
+			{
+				style_counter_x = 0;
+				style_counter_y++;
+			}
+			style_counter_x++;
+			mainCanvas.innerHTML += "<div class='connector Idle_Application_Input"+i+" "+data[i].to+" '> <img src='/static/js-graph/arrow.gif' class='connector-end'> <label class='middle-label'> "+data[i].name+" ("+data[i].slug+" ) </label>	 </div> "
+		}
+		else if ( data[i].from == "Profile_Input" )
+		{
+			mainCanvas.innerHTML += "<p class='block draggable block_profile_input btn btn-default btn-lg' id='Profile_Input"+i+"' style='left: "+style_counter_x*400+"px; top: "+style_counter_y*100+"px;' ondblclick='vizualize_specific_app("+data[i].to+")' >"+
+				"<span class='glyphicon glyphicon-log-in'></span>Profile Input </p> ";
+			if (style_counter_x % 3 == 0 )
+			{
+				style_counter_x = 0;
+				style_counter_y++;
+			}
+			style_counter_x++;
+			mainCanvas.innerHTML += "<div class='connector Profile_Input"+i+" "+data[i].to+" '> <img src='/static/js-graph/arrow.gif' class='connector-end'> <label class='middle-label'> "+data[i].name+" ("+data[i].slug+" ) </label>	 </div> "
+		}
+		else if ( data[i].from == "User_Input" )
+		{
+			mainCanvas.innerHTML += "<p class='block draggable block_user_input btn btn-default btn-lg' id='User_Input"+i+"' style='left: "+style_counter_x*400+"px; top: "+style_counter_y*100+"px;'  >"+
+				"<span class='glyphicon glyphicon-log-in'></span>User Input </p> ";
+			if (style_counter_x % 3 == 0 )
+			{
+				style_counter_x = 0;
+				style_counter_y++;
+			}
+			style_counter_x++;
+			mainCanvas.innerHTML += "<div class='connector User_Input"+i+" "+data[i].to+" '> <img src='/static/js-graph/arrow.gif' class='connector-end'> <label class='middle-label'> "+data[i].name+" ("+data[i].slug+" ) </label>	 </div> "
+		}
+		else if ( data[i].to == "Idle_Application_Output" )
+		{
+			mainCanvas.innerHTML += "<p class='block draggable block_idle_app_output btn btn-default btn-lg' id='Idle_Application_Output"+i+"' style='left: "+style_counter_x*400+"px; top: "+style_counter_y*100+"px;' >"+
+				"Application Output <span class='glyphicon glyphicon-log-out'></span>  </p>";
+			if (style_counter_x % 3 == 0 )
+			{
+				style_counter_x = 0;
+				style_counter_y++;
+			}
+			style_counter_x++;
+			mainCanvas.innerHTML += "<div class='connector Idle_Application_Output"+i+" "+data[i].from+" '> <img src='/static/js-graph/arrow.gif' class='connector-start'> <label class='middle-label'> "+data[i].name+" ("+data[i].slug+" ) </label>	 </div> "
+		}
+		else
+		{	
+			mainCanvas.innerHTML += "<div class='connector "+data[i].from+" "+data[i].to+" '> <img src='/static/js-graph/arrow.gif' class='connector-end'> <label class='middle-label'> "+data[i].name+"  ("+data[i].slug+" ) </label> </div> "
+		}
+	}
+	
+	mainCanvas.style.height= (style_counter_y*130 +500)+"px";
+	mainCanvas.style.width="100%";
+	mainCanvas.style.position="fixed";
+	mainCanvas.style.border="1px solid black";
+
+	initPageObjects();
+	console.log (mainCanvas);
+	
+	
+
+	
+} );
+
+
+function vizualize_specific_app(id)
+{
+	window.open('/apps/visuzalize_app/'+id,'_blank');
+}
+</script>
+
+
+ <style>
+      .canvas {
+        font-family: tahoma;
+      }
+
+      
+      .block_app {
+        position: absolute;
+        border: 3px solid #2AB69D;
+        /*
+        border: 1px solid #7DAB76;
+        background-color: green;
+        padding: 3px;
+        */
+      }
+      .block_app span{
+      	color: #2AB69D;
+      	margin-right: 10px;
+      }
+      
+     .block_app_idle{
+        position: absolute;
+        border: 3px solid gray;
+        /*
+        border: 1px solid #7DAB76;
+        background-color: orange;
+        padding: 3px;
+        */
+      }
+      .block_app_idle span{
+      	color: gray;
+      	margin-right: 10px;
+      }
+      
+      .block_idle_app_input {
+        position: absolute;
+        border: 3px solid #E65848;
+        /*
+        border: 1px solid #7DAB76;
+        border-radius: 50%;
+        width: 80px;
+				height: 80px;
+        background-color: red;
+        padding: 3px;
+        */
+      }
+      .block_idle_app_input span{
+      	color: gray;
+      	margin-right: 10px;
+      }
+      
+      .block_idle_app_output{
+        position: absolute;
+        border: 3px solid #FDC536;
+        /*
+        border: 1px solid #7DAB76;
+        border-radius: 50%;
+        width: 80px;
+		height: 80px;
+        background-color: grey;
+        padding: 3px;
+        */
+      }
+      .block_idle_app_output span{
+      	color: gray;
+      	margin-right: 10px;
+      }
+      
+      .block_user_input {
+        position: absolute;
+        border: 3px solid #8B82FC;
+        /*
+        border: 1px solid #7DAB76;
+        border-radius: 50%;
+        width: 60px;
+				height: 60px;
+        background-color: yellow;
+        padding: 3px;
+        */
+      }
+      .block_user_input span{
+      	color: #8B82FC;
+      	margin-right: 10px;
+      }
+      
+      .block_profile_input {
+        position: absolute;
+        border: 3px solid #5B8EFC;
+        /*
+        border: 1px solid #7DAB76;
+        border-radius: 50%;
+        width: 50%;
+		height: 50%;
+        background-color: blue;
+        padding: 3px;
+        */
+      }
+      .block_profile_input span{
+      	color: #5B8EFC;
+      	margin-right: 10px;
+      }
+      .connector {
+        background-color: #C3B54F;
+        padding: 1px;
+      }
+      .source-label, .middle-label, .destination-label {
+        padding: 5px;
+        font-weight: normal;
+      }
+</style>
+	
+  
+<center>
+
+	{% if name %}
+		<h1>{% trans "Visualization of " %}"{{name}}" </h1><br>
+	{% else %}
+		<h1>Visualization of all Appications</h1><br>
+	{% endif %}		
+	<!--
+
+	<div class="row">
+		<div class="col-xs-6 col-md-3">
+			 <div id="left-container">
+				 {% if name %}
+					<h1>Γραφική Απεικόνιση "{{name}}" </h1><br>
+				{% else %}
+					<h1>Γραφική Απεικόνιση εφαρμογών</h1><br>
+				{% endif %}
+				<br/><center><img src="/static/main/img/gadget.png" width="120"/></center><br/>
+				<p style="text-align:justify">
+					Η Γραφική Απεικόνιση εφαρμογών σκοπεύει στην διευκόλυνση και ενημέρωση σας σχετικά
+					με τις εφαρμογές που υπάρχουν ήδη, τα δεδομένα που ανταλλάσσονται μεταξύ των εφαρμογών 
+					καθώς σχετικές πληροφορίες. Αν θέλετε πληροφορίες σχετικά με κάποια συγκεκριμένη εφαρμογή 
+					δεν έχετε παρά να κάνετε διπλό click πάνω σε αυτήν.
+
+		
+			</div>
+		</div>
+		<div class="col-xs-6 col-md-9"><br/><br/>
+			<div class="canvas" id="mainCanvas" >
+			</div>
+		</div>
+	</div>
+	-->
+  
+<div class="canvas" id="mainCanvas" >
+</div>
+</center>
+{% endblock %}

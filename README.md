@@ -1,7 +1,7 @@
 collato
 =======
 
-CollaTo Project
+###CollaTo Project is an approach extending social network data model to promote participant collaboration
 
 
 sudo apt-get install python-pip python-dev

@@ -1,7 +1,7 @@
 CollaTo Open source
 =======
 
-###CollaTo Project is an approach extending social network data model to promote participant collaboration an approach extending social network data model to promote participant collaboration through collaborative application execution and management.
+###CollaTo Project is an approach extending social network data model to promote participant collaboration through collaborative application execution and management.
 
 #####CollaTo Project is developed with Python Django. Follow the steps to create your instance.
 
